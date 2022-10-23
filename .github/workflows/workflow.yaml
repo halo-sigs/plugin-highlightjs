@@ -44,10 +44,10 @@ jobs:
       - name: Build with Gradle
         run: |
           ./gradlew clean build -x test
-      - name: Archive plugin-starter jar
+      - name: Archive plugin-highlightjs jar
         uses: actions/upload-artifact@v2
         with:
-          name: plugin-starter
+          name: plugin-highlightjs
           path: |
             build/libs/*-plain.jar
           retention-days: 1

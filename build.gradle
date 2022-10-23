@@ -6,7 +6,7 @@ plugins {
     id 'java'
 }
 
-group 'run.halo.starter'
+group 'run.halo.highlightjs'
 version '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_17
 
@@ -35,6 +35,7 @@ jar {
 dependencies {
     compileOnly "io.swagger.core.v3:swagger-core-jakarta:2.2.0"
     compileOnly 'org.springframework.boot:spring-boot-starter-webflux'
+    compileOnly 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compileOnly 'org.pf4j:pf4j:3.6.0'
 
     compileOnly files("lib/halo-2.0.0-SNAPSHOT-plain.jar")
