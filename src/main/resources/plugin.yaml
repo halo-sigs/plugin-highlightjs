@@ -12,6 +12,6 @@ spec:
   configMapName: plugin-highlightjs-configMap
   homepage: https://github.com/halo-sigs/plugin-highlightjs
   displayName: "highlight.js 代码高亮"
-  description: "对 highlight.js 的集成，支持在内容页高亮代码块"
+  description: "提供对 highlight.js 的集成，支持在内容页高亮显示代码块"
   license:
     - name: "MIT"
