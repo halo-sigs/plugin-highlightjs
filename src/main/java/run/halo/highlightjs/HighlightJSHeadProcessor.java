@@ -10,6 +10,9 @@ import reactor.core.publisher.Mono;
 import run.halo.app.plugin.SettingFetcher;
 import run.halo.app.theme.dialect.TemplateHeadProcessor;
 
+/**
+ * @author ryanwang
+ */
 @Component
 public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
 
