@@ -40,7 +40,7 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
         return """
                 <!-- PluginHighlightJS start -->
                 <link href="/plugins/PluginHighlightJS/assets/static/styles/%s" rel="stylesheet"/>
-                <script src="/plugins/PluginHighlightJS/assets/static/highlight.min.js"></script>
+                <script defer src="/plugins/PluginHighlightJS/assets/static/highlight.min.js"></script>
                 <script>
                     document.addEventListener("DOMContentLoaded", async function () {
                       const extraLanguages = "%s".split(",").filter((x) => x);
