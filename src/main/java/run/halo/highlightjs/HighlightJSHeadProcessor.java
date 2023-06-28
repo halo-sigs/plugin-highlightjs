@@ -1,39 +1,38 @@
 package run.halo.highlightjs;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IModel;
 import org.thymeleaf.model.IModelFactory;
 import org.thymeleaf.processor.element.IElementModelStructureHandler;
 import reactor.core.publisher.Mono;
-import run.halo.app.plugin.SettingFetcher;
-import run.halo.app.theme.DefaultTemplateEnum;
+import run.halo.app.plugin.ReactiveSettingFetcher;
 import run.halo.app.theme.dialect.TemplateHeadProcessor;
-import run.halo.app.theme.router.strategy.ModelConst;
 
 /**
  * @author ryanwang
  */
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
 
-    private final SettingFetcher settingFetcher;
+    private static final String TEMPLATE_ID_VARIABLE = "_templateId";
 
-    public HighlightJSHeadProcessor(SettingFetcher settingFetcher) {
-        this.settingFetcher = settingFetcher;
-    }
+    private final ReactiveSettingFetcher reactiveSettingFetcher;
 
     @Override
     public Mono<Void> process(ITemplateContext context, IModel model, IElementModelStructureHandler structureHandler) {
         if (!isContentTemplate(context)) {
             return Mono.empty();
         }
-        return settingFetcher.fetch("basic", BasicConfig.class).map(basicConfig -> {
+        return reactiveSettingFetcher.fetch("basic", BasicConfig.class).doOnNext(basicConfig -> {
             final IModelFactory modelFactory = context.getModelFactory();
             model.add(modelFactory.createText(highlightJsScript(basicConfig.getExtra_languages(), basicConfig.getStyle())));
-            return Mono.empty();
-        }).orElse(Mono.empty()).then();
+        }).onErrorContinue((throwable, o) -> log.warn("HighlightJSHeadProcessor process failed", throwable)).then();
     }
 
     private String highlightJsScript(String extraLanguages, String style) {
@@ -76,7 +75,8 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
     }
 
     public boolean isContentTemplate(ITemplateContext context) {
-        return DefaultTemplateEnum.POST.getValue().equals(context.getVariable(ModelConst.TEMPLATE_ID)) || DefaultTemplateEnum.SINGLE_PAGE.getValue().equals(context.getVariable(ModelConst.TEMPLATE_ID));
+        return "post".equals(context.getVariable(TEMPLATE_ID_VARIABLE))
+                || "page".equals(context.getVariable(TEMPLATE_ID_VARIABLE));
     }
 
     @Data
