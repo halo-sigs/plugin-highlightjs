@@ -32,7 +32,7 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
         return reactiveSettingFetcher.fetch("basic", BasicConfig.class).doOnNext(basicConfig -> {
             final IModelFactory modelFactory = context.getModelFactory();
             model.add(modelFactory.createText(highlightJsScript(basicConfig.getExtra_languages(), basicConfig.getStyle())));
-        }).onErrorContinue((throwable, o) -> log.warn("HighlightJSHeadProcessor process failed", throwable)).then();
+        }).doOnError((e) -> log.warn("HighlightJSHeadProcessor process failed", e)).then();
     }
 
     private String highlightJsScript(String extraLanguages, String style) {
