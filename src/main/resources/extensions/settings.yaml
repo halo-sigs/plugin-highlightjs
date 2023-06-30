@@ -7,6 +7,17 @@ spec:
     - group: basic
       label: 基本设置
       formSchema:
+        - $formkit: repeater
+          name: rules
+          label: 页面匹配规则
+          value: [ ]
+          children:
+            - $formkit: text
+              name: pathPattern
+              label: 路径匹配
+              value: ""
+              validation: required
+              help: 用于匹配页面路径的符合 Ant-style 的表达式 ，如：/archives/**，被匹配的页面将会被添加代码高亮功能
         - $formkit: textarea
           name: extra_languages
           label: 代码块额外高亮语言
