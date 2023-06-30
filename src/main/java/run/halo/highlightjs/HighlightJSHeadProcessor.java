@@ -39,7 +39,7 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
     private static final String TEMPLATE_ID_VARIABLE = "_templateId";
 
     private final ReactiveSettingFetcher reactiveSettingFetcher;
-    private final PathPatternRouteMatcher routeMatcher = new PathPatternRouteMatcher();
+    private final RouteMatcher routeMatcher = new PathPatternRouteMatcher();
 
     @Override
     public Mono<Void> process(ITemplateContext context, IModel model, IElementModelStructureHandler structureHandler) {
