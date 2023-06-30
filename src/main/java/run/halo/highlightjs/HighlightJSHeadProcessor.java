@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.server.PathContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.util.RouteMatcher;
+import org.springframework.web.util.pattern.PathPatternParser;
 import org.springframework.web.util.pattern.PathPatternRouteMatcher;
 import org.springframework.web.util.pattern.PatternParseException;
 import org.thymeleaf.context.Contexts;
@@ -39,7 +41,8 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
     private static final String TEMPLATE_ID_VARIABLE = "_templateId";
 
     private final ReactiveSettingFetcher reactiveSettingFetcher;
-    private final RouteMatcher routeMatcher = new PathPatternRouteMatcher();
+
+    private final RouteMatcher routeMatcher = createRouteMatcher();
 
     @Override
     public Mono<Void> process(ITemplateContext context, IModel model, IElementModelStructureHandler structureHandler) {
@@ -141,5 +144,11 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
         public List<PathMatchRule> nullSafeRules() {
             return ObjectUtils.defaultIfNull(rules, List.of());
         }
+    }
+
+    RouteMatcher createRouteMatcher() {
+        var parser = new PathPatternParser();
+        parser.setPathOptions(PathContainer.Options.HTTP_PATH);
+        return new PathPatternRouteMatcher(parser);
     }
 }
