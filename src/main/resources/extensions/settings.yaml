@@ -169,3 +169,8 @@ spec:
               label: "xcode.min.css"
             - value: "xt256.min.css"
               label: "xt256.min.css"
+        - $formkit: checkbox
+          label: 显示复制按钮
+          value: false
+          name: showCopyButton
+

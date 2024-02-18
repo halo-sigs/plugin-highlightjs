@@ -5,10 +5,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.server.PathContainer;
 import org.springframework.stereotype.Component;
-import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.util.RouteMatcher;
 import org.springframework.web.util.pattern.PathPatternParser;
 import org.springframework.web.util.pattern.PathPatternRouteMatcher;
@@ -24,11 +22,6 @@ import run.halo.app.plugin.ReactiveSettingFetcher;
 import run.halo.app.theme.dialect.TemplateHeadProcessor;
 
 import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 /**
  * @author ryanwang
@@ -53,7 +46,7 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
                     }
 
                     final IModelFactory modelFactory = context.getModelFactory();
-                    String scriptString = highlightJsScript(basicConfig.getExtra_languages(), basicConfig.getStyle());
+                    String scriptString = highlightJsScript(basicConfig);
                     model.add(modelFactory.createText(scriptString));
                 })
                 .onErrorResume(e -> {
@@ -63,15 +56,40 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
                 .then();
     }
 
-    private String highlightJsScript(String extraLanguages, String style) {
-        return """
-                <!-- PluginHighlightJS start -->
-                <link href="/plugins/PluginHighlightJS/assets/static/styles/%s" rel="stylesheet"/>
-                <script defer src="/plugins/PluginHighlightJS/assets/static/highlight.min.js"></script>
+    private String highlightJsScript(BasicConfig basicConfig) {
+        StringBuilder injectCode = new StringBuilder();
+        injectCode.append("""
+                    <!-- PluginHighlightJS start -->
+                    <link href="/plugins/PluginHighlightJS/assets/static/styles/%s" rel="stylesheet"/>
+                    <script defer src="/plugins/PluginHighlightJS/assets/static/highlight.min.js"></script>
+                """.formatted(basicConfig.getStyle()));
+
+        if (basicConfig.isShowCopyButton()) {
+            injectCode.append("""
+                        <link href="/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.min.css" rel="stylesheet"/>
+                        <script defer src="/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.min.js"></script>
+                    """);
+        }
+
+        injectCode.append("""
+                <link href="/plugins/PluginHighlightJS/assets/static/plugins/override.css" rel="stylesheet"/>
                 <script>
-                    document.addEventListener("DOMContentLoaded", async function () {
+                """);
+
+        injectCode.append("""
+                document.addEventListener("DOMContentLoaded", async function () {
+                """);
+
+        if (basicConfig.isShowCopyButton()) {
+            injectCode.append("""
+                        hljs.addPlugin(new CopyButtonPlugin({ lang: "zh"}));
+                    """);
+        }
+
+        var extraLanguages = basicConfig.getExtra_languages();
+
+        injectCode.append("""
                       const extraLanguages = "%s".split(",").filter((x) => x);
-                    
                       for (let i = 0; i < extraLanguages.length; i++) {
                         const lang = extraLanguages[i];
                         if (lang) {
@@ -79,12 +97,9 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
                         }
                       }
                     
-                      console.log("Extra languages: ", extraLanguages);
-                    
                       document.querySelectorAll("pre code").forEach((el) => {
                         hljs.highlightElement(el);
                       });
-                      console.log("Loaded languages: ", hljs.listLanguages());
                     });
                     
                     function loadScript(url) {
@@ -99,7 +114,8 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
                     }
                 </script>
                 <!-- PluginHighlightJS end -->
-                """.formatted(style, extraLanguages != null ? extraLanguages : "");
+                """.formatted(extraLanguages != null ? extraLanguages : ""));
+        return injectCode.toString();
     }
 
     public boolean notContentTemplate(ITemplateContext context) {
@@ -130,6 +146,12 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
         return false;
     }
 
+    RouteMatcher createRouteMatcher() {
+        var parser = new PathPatternParser();
+        parser.setPathOptions(PathContainer.Options.HTTP_PATH);
+        return new PathPatternRouteMatcher(parser);
+    }
+
     @Data
     public static class PathMatchRule {
         private String pathPattern;
@@ -140,15 +162,10 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
         String extra_languages;
         String style;
         List<PathMatchRule> rules;
+        boolean showCopyButton;
 
         public List<PathMatchRule> nullSafeRules() {
             return ObjectUtils.defaultIfNull(rules, List.of());
         }
-    }
-
-    RouteMatcher createRouteMatcher() {
-        var parser = new PathPatternParser();
-        parser.setPathOptions(PathContainer.Options.HTTP_PATH);
-        return new PathPatternRouteMatcher(parser);
     }
 }
