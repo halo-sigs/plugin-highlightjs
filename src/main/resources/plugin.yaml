@@ -2,6 +2,8 @@ apiVersion: plugin.halo.run/v1alpha1
 kind: Plugin
 metadata:
   name: PluginHighlightJS
+  annotations:
+    store.halo.run/app-id: app-sqpgf
 spec:
   enabled: true
   version: 1.0.0
