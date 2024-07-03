@@ -9,12 +9,14 @@ spec:
   version: 1.0.0
   requires: ">=2.10.0"
   author:
-    name: Halo OSS Team
+    name: Halo
     website: https://github.com/halo-dev
   logo: logo.png
   settingName: plugin-highlightjs-settings
   configMapName: plugin-highlightjs-configMap
-  homepage: https://github.com/halo-sigs/plugin-highlightjs
+  homepage: https://www.halo.run/store/apps/app-sqpgf
+  issues: https://github.com/halo-sigs/plugin-lightgallery/issues
+  repo: https://github.com/halo-sigs/plugin-lightgallery
   displayName: "highlight.js 代码高亮"
   description: "提供对 highlight.js 的集成，支持在内容页高亮显示代码块"
   license:
