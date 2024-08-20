@@ -2,9 +2,9 @@ import {
   ExtensionCodeBlock,
   type ExtensionCodeBlockOptions,
 } from "@halo-dev/richtext-editor";
+import "highlight.js/styles/github.min.css";
 import lowlight from "./lowlight";
 import { LowlightPlugin } from "./lowlight-plugin";
-import "highlight.js/styles/github.min.css";
 
 export interface CodeBlockLowlightOptions {
   /**
@@ -28,7 +28,12 @@ export default ExtensionCodeBlock.extend<
       ...this.parent?.(),
       lowlight: lowlight,
       defaultLanguage: null,
-      languages: lowlight.listLanguages(),
+      languages: lowlight.listLanguages().map((language) => {
+        return {
+          label: language,
+          value: language,
+        };
+      }),
     };
   },
 

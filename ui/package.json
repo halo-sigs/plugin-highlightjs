@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "dev": "vite build --watch --mode=development",
+    "dev": "rspack build --watch",
     "build": "run-p type-check \"build-only {@}\" --",
-    "build-only": "vite build",
+    "build-only": "rspack build",
     "test:unit": "vitest",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@halo-dev/console-shared": "^2.17.0",
-    "@halo-dev/richtext-editor": "^2.17.0",
+    "@halo-dev/richtext-editor": "link:/Users/ryanwang/Workspace/github/ruibaby/halo-next/ui/packages/editor",
     "axios": "^1.7.2",
     "lowlight": "^3.1.0",
     "vue": "^3.4.31"
@@ -18,6 +18,8 @@
   "devDependencies": {
     "@halo-dev/ui-plugin-bundler-kit": "^2.17.0",
     "@iconify/json": "^2.2.224",
+    "@rspack/cli": "^0.7.5",
+    "@rspack/core": "^0.7.5",
     "@rushstack/eslint-patch": "^1.10.3",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
