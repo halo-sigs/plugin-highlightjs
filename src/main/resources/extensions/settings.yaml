@@ -7,10 +7,19 @@ spec:
     - group: basic
       label: 基本设置
       formSchema:
+        - $formkit: checkbox
+          name: enableThemeSideRender
+          id: enableThemeSideRender
+          label: 启用主题侧渲染
+          help: 启用之后会自动渲染文章中的代码块，以及根据下面的页面匹配规则渲染代码块。取消勾选之后，此插件仅会在编辑器中渲染代码块。
+          value: true
         - $formkit: repeater
+          if: "$get(enableThemeSideRender).value"
           name: rules
+          id: rules
+          key: rules
           label: 页面匹配规则
-          value: [ ]
+          value: []
           children:
             - $formkit: text
               name: pathPattern
@@ -19,6 +28,7 @@ spec:
               validation: required
               help: 用于匹配页面路径的符合 Ant-style 的表达式 ，如：/archives/**，被匹配的页面将会被添加代码高亮功能
         - $formkit: select
+          if: "$get(enableThemeSideRender).value"
           name: style
           label: 代码块高亮主题
           value: "default.min.css"
@@ -166,7 +176,7 @@ spec:
             - value: "xt256.min.css"
               label: "xt256.min.css"
         - $formkit: checkbox
+          if: "$get(enableThemeSideRender).value"
           label: 显示复制按钮
           value: false
           name: showCopyButton
-
