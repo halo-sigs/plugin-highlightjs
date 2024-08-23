@@ -1,19 +1,15 @@
 /* eslint-env node */
 require("@rushstack/eslint-patch/modern-module-resolution");
-
 module.exports = {
-  root: true,
-  extends: [
-    "plugin:vue/vue3-recommended",
-    "eslint:recommended",
-    "@vue/eslint-config-typescript/recommended",
-    "@vue/eslint-config-prettier",
-  ],
+  env: {
+    es2021: true,
+    browser: true,
+  },
+  extends: "eslint:recommended",
+  overrides: [],
   parserOptions: {
     ecmaVersion: "latest",
-  },
-  env: {
-    "vue/setup-compiler-macros": true,
+    sourceType: "module",
   },
   rules: {
     "@typescript-eslint/ban-ts-comment": "off",
