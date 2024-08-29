@@ -7,11 +7,11 @@
   },
   "dependencies": {
     "@halo-dev/console-shared": "^2.17.0",
-    "@halo-dev/richtext-editor": "link:/Users/ryanwang/Workspace/github/ruibaby/halo-next/ui/packages/editor",
+    "@halo-dev/richtext-editor": "https://pkg.pr.new/@halo-dev/richtext-editor@9315a16",
     "axios": "^1.7.2",
+    "highlight.js": "^11.10.0",
     "lowlight": "^3.1.0",
-    "vue": "^3.4.31",
-    "highlight.js": "^11.10.0"
+    "vue": "^3.4.31"
   },
   "devDependencies": {
     "@rspack/cli": "^0.7.5",
