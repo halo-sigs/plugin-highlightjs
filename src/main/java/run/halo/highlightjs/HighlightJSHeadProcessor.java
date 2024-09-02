@@ -11,11 +11,14 @@ import org.springframework.util.RouteMatcher;
 import org.springframework.web.util.pattern.PathPatternParser;
 import org.springframework.web.util.pattern.PathPatternRouteMatcher;
 import org.springframework.web.util.pattern.PatternParseException;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import org.thymeleaf.context.Contexts;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IModel;
 import org.thymeleaf.model.IModelFactory;
 import org.thymeleaf.processor.element.IElementModelStructureHandler;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.web.IWebRequest;
 import reactor.core.publisher.Mono;
 import run.halo.app.plugin.ReactiveSettingFetcher;
@@ -37,10 +40,16 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
 
     private final RouteMatcher routeMatcher = createRouteMatcher();
 
+    private final TemplateEngine templateEngine = new SpringTemplateEngine();
+
     @Override
     public Mono<Void> process(ITemplateContext context, IModel model, IElementModelStructureHandler structureHandler) {
         return reactiveSettingFetcher.fetch("basic", BasicConfig.class)
                 .doOnNext(basicConfig -> {
+                    if (!basicConfig.enableThemeSideRender) {
+                        return;
+                    }
+
                     if (mismatchedRoute(context, basicConfig) && notContentTemplate(context)) {
                         return;
                     }
@@ -57,65 +66,35 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
     }
 
     private String highlightJsScript(BasicConfig basicConfig) {
-        StringBuilder injectCode = new StringBuilder();
-        injectCode.append("""
-                    <!-- PluginHighlightJS start -->
-                    <link href="/plugins/PluginHighlightJS/assets/static/styles/%s" rel="stylesheet"/>
-                    <script defer src="/plugins/PluginHighlightJS/assets/static/highlight.min.js"></script>
-                """.formatted(basicConfig.getStyle()));
+        var context = new Context();
+        context.setVariable("config", basicConfig);
+        var code = templateEngine.process(
+                """
+                        <!-- PluginHighlightJS start -->
+                        <link th:href="|/plugins/PluginHighlightJS/assets/static/styles/${config.style}|" rel="stylesheet"/>
+                        <script defer src="/plugins/PluginHighlightJS/assets/static/highlight.min.js"></script>
 
-        if (basicConfig.isShowCopyButton()) {
-            injectCode.append("""
-                        <link href="/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.min.css" rel="stylesheet"/>
-                        <script defer src="/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.min.js"></script>
-                    """);
-        }
+                        <th:block th:if="${config.showCopyButton}">
+                            <link href="/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.min.css" rel="stylesheet"/>
+                            <script defer src="/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.min.js"></script>
+                        </th:block>
 
-        injectCode.append("""
-                <link href="/plugins/PluginHighlightJS/assets/static/plugins/override.css" rel="stylesheet"/>
-                <script>
-                """);
+                        <link href="/plugins/PluginHighlightJS/assets/static/plugins/override.css" rel="stylesheet"/>
 
-        injectCode.append("""
-                document.addEventListener("DOMContentLoaded", async function () {
-                """);
-
-        if (basicConfig.isShowCopyButton()) {
-            injectCode.append("""
-                        hljs.addPlugin(new CopyButtonPlugin({ lang: "zh"}));
-                    """);
-        }
-
-        var extraLanguages = basicConfig.getExtra_languages();
-
-        injectCode.append("""
-                      const extraLanguages = "%s".split(",").filter((x) => x);
-                      for (let i = 0; i < extraLanguages.length; i++) {
-                        const lang = extraLanguages[i];
-                        if (lang) {
-                          await loadScript(`/plugins/PluginHighlightJS/assets/static/languages/${lang}.min.js`);
-                        }
-                      }
-                    
-                      document.querySelectorAll("pre code").forEach((el) => {
-                        hljs.highlightElement(el);
-                      });
-                    });
-                    
-                    function loadScript(url) {
-                      return new Promise(function (resolve, reject) {
-                        const script = document.createElement("script");
-                        script.type = "text/javascript";
-                        script.src = url;
-                        script.onload = resolve;
-                        script.onerror = reject;
-                        document.head.appendChild(script);
-                      });
-                    }
-                </script>
-                <!-- PluginHighlightJS end -->
-                """.formatted(extraLanguages != null ? extraLanguages : ""));
-        return injectCode.toString();
+                        <script th:inline="javascript">
+                        document.addEventListener("DOMContentLoaded", function () {
+                            [# th:if="${config.showCopyButton}"]
+                                hljs.addPlugin(new CopyButtonPlugin({ lang: "zh"}));
+                            [/]
+                            document.querySelectorAll("pre code").forEach((el) => {
+                                hljs.highlightElement(el);
+                            });
+                        });
+                        </script>
+                        <!-- PluginHighlightJS end -->
+                        """,
+                context);
+        return code;
     }
 
     public boolean notContentTemplate(ITemplateContext context) {
@@ -159,7 +138,7 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
 
     @Data
     public static class BasicConfig {
-        String extra_languages;
+        boolean enableThemeSideRender;
         String style;
         List<PathMatchRule> rules;
         boolean showCopyButton;
