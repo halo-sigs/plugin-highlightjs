@@ -18,7 +18,7 @@ spec:
   issues: https://github.com/halo-sigs/plugin-lightgallery/issues
   repo: https://github.com/halo-sigs/plugin-lightgallery
   displayName: "highlight.js 代码高亮"
-  description: "提供对 highlight.js 的集成，支持在内容页高亮显示代码块"
+  description: "提供对 highlight.js 的集成，支持在编辑器和内容页高亮显示代码块"
   license:
     - name: "GPL-3.0"
       url: "https://github.com/halo-sigs/plugin-highlightjs/blob/main/LICENSE"
