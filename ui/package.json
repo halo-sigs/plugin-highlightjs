@@ -6,16 +6,16 @@
     "prettier": "prettier --write src/"
   },
   "dependencies": {
-    "@halo-dev/console-shared": "^2.17.0",
-    "@halo-dev/richtext-editor": "https://pkg.pr.new/@halo-dev/richtext-editor@9315a16",
+    "@halo-dev/console-shared": "^2.19.0",
+    "@halo-dev/richtext-editor": "^2.19.0",
     "axios": "^1.7.2",
     "highlight.js": "^11.10.0",
     "lowlight": "^3.1.0",
     "vue": "^3.4.31"
   },
   "devDependencies": {
-    "@rspack/cli": "^0.7.5",
-    "@rspack/core": "^0.7.5",
+    "@rspack/cli": "^1.0.0",
+    "@rspack/core": "^1.0.0",
     "@rushstack/eslint-patch": "^1.10.3",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
