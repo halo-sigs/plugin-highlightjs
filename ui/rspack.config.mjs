@@ -23,6 +23,9 @@ export default defineConfig({
   optimization: {
     providedExports: false,
   },
+  experiments: {
+    css: true,
+  },
   module: {
     rules: [
       {
