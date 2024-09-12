@@ -15,8 +15,8 @@ spec:
   settingName: plugin-highlightjs-settings
   configMapName: plugin-highlightjs-configMap
   homepage: https://www.halo.run/store/apps/app-sqpgf
-  issues: https://github.com/halo-sigs/plugin-lightgallery/issues
-  repo: https://github.com/halo-sigs/plugin-lightgallery
+  issues: https://github.com/halo-sigs/plugin-highlightjs/issues
+  repo: https://github.com/halo-sigs/plugin-highlightjs
   displayName: "highlight.js 代码高亮"
   description: "提供对 highlight.js 的集成，支持在编辑器和内容页高亮显示代码块"
   license:
