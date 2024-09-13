@@ -21,6 +21,7 @@ import org.thymeleaf.processor.element.IElementModelStructureHandler;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.web.IWebRequest;
 import reactor.core.publisher.Mono;
+import run.halo.app.plugin.PluginContext;
 import run.halo.app.plugin.ReactiveSettingFetcher;
 import run.halo.app.theme.dialect.TemplateHeadProcessor;
 
@@ -37,6 +38,8 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
     private static final String TEMPLATE_ID_VARIABLE = "_templateId";
 
     private final ReactiveSettingFetcher reactiveSettingFetcher;
+
+    private final PluginContext pluginContext;
 
     private final RouteMatcher routeMatcher = createRouteMatcher();
 
@@ -68,18 +71,19 @@ public class HighlightJSHeadProcessor implements TemplateHeadProcessor {
     private String highlightJsScript(BasicConfig basicConfig) {
         var context = new Context();
         context.setVariable("config", basicConfig);
+        context.setVariable("version", pluginContext.getVersion());
         var code = templateEngine.process(
                 """
                         <!-- PluginHighlightJS start -->
-                        <link th:href="|/plugins/PluginHighlightJS/assets/static/styles/${config.style}|" rel="stylesheet"/>
-                        <script defer src="/plugins/PluginHighlightJS/assets/static/highlight.min.js"></script>
+                        <link th:href="|/plugins/PluginHighlightJS/assets/static/styles/${config.style}?version=${version}|" rel="stylesheet"/>
+                        <script defer th:src="|/plugins/PluginHighlightJS/assets/static/highlight.min.js?version=${version}|"></script>
 
                         <th:block th:if="${config.showCopyButton}">
-                            <link href="/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.css" rel="stylesheet"/>
-                            <script defer src="/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.js"></script>
+                            <link th:href="|/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.css?version=${version}|" rel="stylesheet"/>
+                            <script defer th:src="|/plugins/PluginHighlightJS/assets/static/plugins/highlightjs-copy.js?version=${version}|"></script>
                         </th:block>
 
-                        <link href="/plugins/PluginHighlightJS/assets/static/plugins/override.css" rel="stylesheet"/>
+                        <link th:href="|/plugins/PluginHighlightJS/assets/static/plugins/override.css?version=${version}|" rel="stylesheet"/>
 
                         <script th:inline="javascript">
                         document.addEventListener("DOMContentLoaded", function () {
