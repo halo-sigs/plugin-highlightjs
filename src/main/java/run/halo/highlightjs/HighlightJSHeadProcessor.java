@@ -25,7 +25,6 @@ import run.halo.app.plugin.PluginContext;
 import run.halo.app.plugin.ReactiveSettingFetcher;
 import run.halo.app.theme.dialect.TemplateHeadProcessor;
 
-import java.lang.Runtime.Version;
 import java.util.List;
 
 /**
