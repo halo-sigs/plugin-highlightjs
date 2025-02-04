@@ -37,6 +37,8 @@ spec:
               label: "a11y-dark.min.css"
             - value: "a11y-light.min.css"
               label: "a11y-light.min.css"
+            - value: "catppuccin-mocha.css"
+              label: "catppuccin-mocha.css"
             - value: "agate.min.css"
               label: "agate.min.css"
             - value: "an-old-hope.min.css"
