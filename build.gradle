@@ -33,9 +33,6 @@ test {
 
 node {
     nodeProjectDir = file("${project.projectDir}/ui")
-    download = true
-    version = "20.11.1"
-    npmInstallCommand = "pnpm"
 }
 
 tasks.register('buildFrontend', PnpmTask) {
@@ -47,8 +44,8 @@ tasks.register('installDepsForUI', PnpmTask) {
    args = ['install']
 }
 
+
 build {
-   dependsOn('buildFrontend')
    // build frontend before build
    tasks.named('compileJava').configure {
        dependsOn('buildFrontend')
