@@ -110,27 +110,6 @@ pre code.hljs {
     color: #a5adcb; /* subtext0 */
   }
   
-  /* 添加代码块圆角和边框样式 */
-  pre {
-    border-radius: 8px;
-    margin: 1em 0;
-  }
-  
-  /* 可选：添加行号样式 */
-  .hljs-ln-numbers {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    text-align: right;
-    color: #6e738d; /* overlay0 */
-    border-right: 1px solid #494d64; /* surface1 */
-    vertical-align: top;
-    padding-right: 8px !important;
-  }
-  
   .hljs-ln-code {
     padding-left: 8px !important;
   } 
