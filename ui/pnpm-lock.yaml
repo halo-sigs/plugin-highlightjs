@@ -30,6 +30,9 @@ importers:
       '@halo-dev/ui-plugin-bundler-kit':
         specifier: https://pkg.pr.new/@halo-dev/ui-plugin-bundler-kit@84c6f60
         version: https://pkg.pr.new/@halo-dev/ui-plugin-bundler-kit@84c6f60(@rsbuild/core@1.3.22)(@rsbuild/plugin-vue@1.0.7(@rsbuild/core@1.3.22)(vue@3.4.31(typescript@5.5.3)))(@vitejs/plugin-vue@5.2.4(vite@6.3.5(@types/node@20.14.9)(jiti@2.4.2)(sass@1.77.6)(terser@5.31.6))(vue@3.4.31(typescript@5.5.3)))(axios@1.7.2)(vite@6.3.5(@types/node@20.14.9)(jiti@2.4.2)(sass@1.77.6)(terser@5.31.6))
+      '@rsbuild/core':
+        specifier: ^1.3.22
+        version: 1.3.22
       '@rushstack/eslint-patch':
         specifier: ^1.10.3
         version: 1.10.3
