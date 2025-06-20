@@ -14,7 +14,7 @@
     "vue": "^3.4.31"
   },
   "devDependencies": {
-    "@halo-dev/ui-plugin-bundler-kit": "https://pkg.pr.new/@halo-dev/ui-plugin-bundler-kit@84c6f60",
+    "@halo-dev/ui-plugin-bundler-kit": "^2.21.1",
     "@rsbuild/core": "^1.3.22",
     "@rushstack/eslint-patch": "^1.10.3",
     "@tsconfig/node20": "^20.1.4",
