@@ -2,6 +2,8 @@
 
 主题端的代码块高亮插件，集成了 [highlight.js](https://github.com/highlightjs/highlight.js)。
 
+⚠️ 注意：此插件即将进入维护状态（仅修复问题，不再添加新功能），目前推荐使用功能更加全面的 [Shiki 代码高亮](https://www.halo.run/store/apps/app-kzloktzn)插件。
+
 ## 开发环境
 
 ```bash
