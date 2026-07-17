@@ -25,7 +25,7 @@ export default ExtensionCodeBlock.extend<
 >({
   addOptions() {
     return {
-      ...this.parent?.(),
+      ...this.parent!(),
       lowlight: lowlight,
       defaultLanguage: null,
       languages: lowlight.listLanguages().map((language) => {
