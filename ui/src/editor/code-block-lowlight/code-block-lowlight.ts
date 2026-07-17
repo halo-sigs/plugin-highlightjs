@@ -28,12 +28,18 @@ export default ExtensionCodeBlock.extend<
       ...this.parent?.(),
       lowlight: lowlight,
       defaultLanguage: null,
-      languages: lowlight.listLanguages().map((language) => {
-        return {
-          label: language,
-          value: language,
-        };
-      }),
+      languages: [
+        {
+          label: "自动（auto）",
+          value: "auto",
+        },
+        ...lowlight.listLanguages().map((language) => {
+          return {
+            label: language,
+            value: language,
+          };
+        }),
+      ],
     };
   },
 
