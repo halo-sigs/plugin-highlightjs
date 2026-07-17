@@ -5,8 +5,17 @@ module.exports = {
     es2021: true,
     browser: true,
   },
-  extends: "eslint:recommended",
-  overrides: [],
+  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  overrides: [
+    {
+      files: ["*.cjs"],
+      rules: {
+        "@typescript-eslint/no-require-imports": "off",
+      },
+    },
+  ],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",

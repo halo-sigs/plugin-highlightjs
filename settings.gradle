@@ -1,8 +1,7 @@
 pluginManagement {
     repositories {
-        mavenCentral()
         gradlePluginPortal()
     }
 }
 rootProject.name = 'plugin-highlightjs'
-
+include 'ui'
