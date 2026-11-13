@@ -1,34 +1,32 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "rsbuild build --env-mode=development --watch",
-    "build": "rsbuild build && pnpm type-check",
+    "dev": "vite build --mode=development --watch",
+    "build": "vite build && pnpm type-check",
     "type-check": "tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
     "prettier": "prettier --write src/",
     "test:unit": "echo 'No unit tests specified'"
   },
   "dependencies": {
-    "@halo-dev/richtext-editor": "^2.25.2",
-    "@halo-dev/ui-shared": "^2.25.2",
+    "@halo-dev/richtext-editor": "^2.27.0",
+    "@halo-dev/ui-shared": "^2.27.0",
     "axios": "^1.18.1",
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
     "vue": "^3.5.40"
   },
   "devDependencies": {
-    "@halo-dev/ui-plugin-bundler-kit": "^2.25.2",
-    "@rsbuild/core": "^2.1.6",
-    "@rsbuild/plugin-vue": "^2.0.1",
+    "@halo-dev/ui-plugin-bundler-kit": "^2.27.0",
     "@rushstack/eslint-patch": "^1.16.1",
-    "@types/node": "^20.19.43",
+    "@types/node": "^24.19.2",
     "@typescript-eslint/eslint-plugin": "^8.64.0",
     "@typescript-eslint/parser": "^8.64.0",
-    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitejs/plugin-vue": "^6.0.11",
     "eslint": "^8.57.1",
     "prettier": "^3.9.5",
     "typescript": "~5.5.4",
-    "vite": "^7.3.6"
+    "vite": "^8.3.8"
   },
-  "packageManager": "pnpm@10.34.5+sha512.a4ee05f2f73658255bd6a89859c065a45c28a57daefae2c893a168ee2b73168c37b91e83e57ea67654ad03f03031746430e8bce38e362e042605fb8abc80192e"
+  "packageManager": "pnpm@10.34.5"
 }
