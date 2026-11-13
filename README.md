@@ -4,6 +4,13 @@
 
 ⚠️ 注意：此插件即将进入维护状态（仅修复问题，不再添加新功能），目前推荐使用功能更加全面的 [Shiki 代码高亮](https://www.halo.run/store/apps/app-kzloktzn)插件。
 
+## 使用方式
+
+1. 在 [Releases](https://github.com/halo-sigs/plugin-highlightjs/releases) 下载最新的 JAR 文件。
+2. 在 Halo 后台的插件管理上传 JAR 文件进行安装。
+
+> 需要注意的是，首次安装之后，需要进入插件设置页面保存一次设置，才能正常使用。
+
 ## 开发环境
 
 ```bash
@@ -40,13 +47,6 @@ halo:
     fixedPluginPath:
       - "/path/to/plugin-highlightjs"
 ```
-
-## 使用方式
-
-1. 在 [Releases](https://github.com/halo-sigs/plugin-highlightjs/releases) 下载最新的 JAR 文件。
-2. 在 Halo 后台的插件管理上传 JAR 文件进行安装。
-
-> 需要注意的是，首次安装之后，需要进入插件设置页面保存一次设置，才能正常使用。
 
 ## 主题适配
 
